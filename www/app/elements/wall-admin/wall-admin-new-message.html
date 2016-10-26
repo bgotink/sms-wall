@@ -1,0 +1,87 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+<dom-module id="wall-admin-new-message">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      .wall__admin__new-message__input {
+        --paper-input-container-focus-color: var(--wall-primary-color);
+      }
+
+      .wall__admin__new-message__submit {
+        background-color: var(--wall-primary-color);
+        color: var(--wall-secondary-color);
+      }
+    </style>
+    <form id="form" is="iron-form">
+      <paper-textarea
+        id="message"
+        label="Message"
+        value="{{newMessageValue}}"
+        required
+        rows="5"
+        char-counter
+        maxlength="255"
+        class="wall__admin__new-message__input"
+        ></paper-textarea>
+      <paper-button class="wall__admin__new-message__submit" raised on-click="_submit">Send</paper-button>
+    </form>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'wall-admin-new-message',
+
+        properties: {
+          newMessageValue: {
+            type: String
+          }
+        },
+
+        ready() {
+          this.$.message.addEventListener('keydown', this._submitIfCtrlEnter.bind(this), true);
+        },
+
+        _submit(e) {
+          this.fire('submit', this.newMessageValue);
+          this.newMessageValue = '';
+        },
+
+        _submitIfCtrlEnter(e) {
+          if (e.which !== 13) {
+            // only if enter
+            return;
+          }
+
+          if (!e.ctrlKey && !e.metaKey) {
+            // only if ctrl + enter or meta + enter (for mac)
+            return;
+          }
+
+          this._submit();
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+</dom-module>

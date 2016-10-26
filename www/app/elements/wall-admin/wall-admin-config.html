@@ -1,0 +1,260 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="wall-admin-config-item-boolean">
+  <template>
+    <style include="shared-styles">
+    </style>
+
+    <iron-ajax
+      url="[[_url]]"
+      handle-as="json"
+      auto
+      on-response="_setInitialValue"
+      ></iron-ajax>
+
+    <iron-ajax
+      id="newValueAjax"
+      method="POST"
+      url="[[_url]]"
+      content-type="application/json"
+      body="[[_body(value)]]"
+      ></iron-ajax>
+
+
+    <template is="dom-if" if="[[__ready(value)]]">
+      <paper-checkbox disabled="[[disabled]]" checked="{{value}}">[[label]]</paper-checkbox>
+    </template>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'wall-admin-config-item-boolean',
+
+        properties: {
+          key: {
+            type: String,
+            reflectToAttribute: true,
+          },
+
+          label: {
+            type: String,
+          },
+
+          value: {
+            type: Boolean,
+            observer: '_valueChanged',
+            notify: true,
+          },
+
+          disabled: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+
+          _url: {
+            type: String,
+            computed: '_computeUrl(key)'
+          },
+        },
+
+        __ready(value) {
+          return value !== undefined;
+        },
+
+        _computeUrl(key) {
+          return `/api/config/${key}`;
+        },
+
+        _valueChanged(newValue, oldValue) {
+          if (oldValue === undefined) {
+            return;
+          }
+
+          this.debounce('value-changed', () => {
+            this.$.newValueAjax.generateRequest();
+          }, 500);
+        },
+
+        _body(value) {
+          return { value };
+        },
+
+        _setInitialValue(e) {
+          this.value = !!+e.detail.response;
+        },
+      });
+    })();
+  </script>
+</dom-module>
+
+<dom-module id="wall-admin-config-item-string">
+  <template>
+    <style include="shared-styles">
+    </style>
+
+    <iron-ajax
+      url="[[_url]]"
+      handle-as="json"
+      auto
+      on-response="_setInitialValue"
+      ></iron-ajax>
+
+    <iron-ajax
+      id="newValueAjax"
+      method="POST"
+      url="[[_url]]"
+      content-type="application/json"
+      body="[[_body(value)]]"
+      ></iron-ajax>
+
+
+    <template is="dom-if" if="[[__ready(value)]]">
+      <paper-input disabled="[[disabled]]" value="{{value}}" label="[[label]]"></paper-input>
+    </template>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'wall-admin-config-item-string',
+
+        properties: {
+          key: {
+            type: String,
+            reflectToAttribute: true,
+          },
+
+          label: {
+            type: String,
+          },
+
+          value: {
+            type: String,
+            observer: '_valueChanged',
+            notify: true,
+          },
+
+          disabled: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+
+          _url: {
+            type: String,
+            computed: '_computeUrl(key)'
+          },
+        },
+
+        __ready(value) {
+          return value !== undefined;
+        },
+
+        _computeUrl(key) {
+          return `/api/config/${key}`;
+        },
+
+        _valueChanged(newValue, oldValue) {
+          if (oldValue === undefined) {
+            return;
+          }
+
+          this.debounce('value-changed', () => {
+            this.$.newValueAjax.generateRequest();
+          }, 500);
+        },
+
+        _body(value) {
+          return { value };
+        },
+
+        _setInitialValue(e) {
+          this.value = e.detail.response;
+        },
+      });
+    })();
+  </script>
+</dom-module>
+
+
+<dom-module id="wall-admin-config">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      wall-admin-config-item-boolean,
+      wall-admin-config-item-string {
+        display: block;
+        padding: 10px;
+      }
+
+      .sub-item {
+        padding-left: 30px;
+      }
+    </style>
+    <wall-admin-config-item-boolean
+      key="default_visible"
+      label="Make messages visible by default?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      key="admin_phone_number_check_enabled"
+      label="Check for admin phone numbers?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      key="contains_newline_check_enabled"
+      label="Remove newlines in messages?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      key="word_check_enabled"
+      label="Check for blocked words?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      key="contains_phone_number_check_enabled"
+      label="Check for phone numbers in message content?"
+      value="{{containsNumberCheckEnabled}}"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      class="sub-item"
+      key="contains_phone_number_check__allow_own_number"
+      disabled="[[!containsNumberCheckEnabled]]"
+      label="Allow people to send their own phone number?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-boolean
+      key="blocked_phone_number_check_enabled"
+      label="Check for blocked phone numbers?"
+      ></wall-admin-config-item-boolean>
+
+    <wall-admin-config-item-string
+      key="phone_number"
+      label="Phone number people should send texts to"
+      ></wall-admin-config-item-string>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'wall-admin-config'
+      });
+    })();
+  </script>
+</dom-module>

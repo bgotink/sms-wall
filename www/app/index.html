@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Polymer Starter Kit">
+
+  <base href="/">
+
+  <title>SMS Wall</title>
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+
+  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- endbuild -->
+
+  <!-- Because this project uses vulcanize this should be your only html import
+       in this file. All other imports should go in elements.html -->
+  <link rel="import" href="elements/elements.html">
+
+  <!-- For shared styles, shared-styles.html import in elements.html -->
+  <style is="custom-style" include="shared-styles"></style>
+</head>
+
+<body unresolved>
+  <span id="browser-sync-binding"></span>
+  <template is="dom-bind" id="app">
+    <app-route route="{{route}}" pattern="/" active="{{homeActive}}"></app-route>
+    <app-route route="{{route}}" pattern="/admin/:page" active="{{adminActive}}" data="{{pageData}}"></app-route>
+
+    <app-location route="{{route}}"></app-location>
+
+
+    <iron-ajax
+      auto verbose
+      url="/api/items/"
+      handle-as="json"
+      last-response="{{items}}"
+      ></iron-ajax>
+
+    <wall-websocket
+      id="socket"
+      url="[[webSocketUrl]]"
+      json
+      auto
+      on-message="onSocketMessage"
+      ></wall-websocket>
+
+    <iron-ajax
+      auto
+      url="/api/config/phone_number"
+      handle-as="json"
+      last-response="{{phoneNumber}}"
+      ></iron-ajax>
+
+    <app-header fixed>
+      <app-toolbar>
+        <div title>
+          <div>Text to [[phoneNumber]]</div>
+        </div>
+        <paper-icon-button hidden$="[[adminActive]]" icon="menu" on-click="goToAdmin"></paper-icon-button>
+        <paper-icon-button hidden$="[[homeActive]]" icon="home" on-click="goHome"></paper-icon-button>
+      </app-toolbar>
+    </app-header>
+
+    <!-- Main Content -->
+    <main class="content">
+      <template is="dom-if" if="[[homeActive]]">
+        <wall-items data="[[items]]">
+        </wall-items>
+      </template>
+
+      <template is="dom-if" if="[[adminActive]]">
+        <paper-tabs noink selected="{{pageData.page}}" attr-for-selected="page">
+          <paper-tab page="messages">Messages</paper-tab>
+          <paper-tab page="post">New Message</paper-tab>
+          <paper-tab page="config">Configuration</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="[[pageData.page]]" attr-for-selected="page">
+          <section page="messages">
+            <wall-admin on-data-for-socket="sendToSocket" data="{{items}}">
+            </wall-admin>
+          </section>
+          <section page="post">
+            <paper-material elevation="1">
+              <wall-admin-new-message on-submit="sendAdminMessage"></wall-admin-new-message>
+            </paper-material>
+          </section>
+          <section page="config">
+            <paper-material elevation="1">
+              <wall-admin-config></wall-admin-config>
+            </paper-material>
+          </section>
+        </iron-pages>
+      </template>
+    </main>
+
+    <paper-toast id="toast">
+      <span class="toast-hide-button" role="button" tabindex="0" on-click="hideToast">Ok</span>
+    </paper-toast>
+  </template>
+
+  <!-- build:js scripts/app.js -->
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
+</body>
+
+</html>
