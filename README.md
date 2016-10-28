@@ -17,7 +17,7 @@ You are unable to add words or blocked phone numbers at run time. At the moment 
 ## Setup
 1) ON{X} on a android phone with the simcard which is receiving the text messages. See script needed below.
 2) A computer connected to a project/big screen which runs the server.
-3)[OPTIONAL] An extra computer which can connect over the network to the server to change the config or remove/post messages. (You can also just use the server for this.)
+3)[OPTIONAL] An extra computer which can connect over the network to the server to change the configuration or remove/post messages. (You can also just use the server for this.)
 **NOTE** The server is unprotected. Anyone who knows the ip address and port number can connect to it! Best is to establish a secure network between server and computer
 
 ## Installation
