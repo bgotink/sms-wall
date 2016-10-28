@@ -12,7 +12,7 @@ The following automatic censoring can be turned on:
 Admin phone numbers can also be configured. If this number texts a message it is also shown in a special color and shown unfiltered on the screen.
 
 ## Known issues
-You are unable to add words or blocked phone numbers at run time. At the moment the can only be added in the init of the database.
+You are unable to add words or blocked phone numbers at run time. At the moment the can only be added in the initialization of the database.
 
 ## Setup
 1) ON{X} on a android phone with the simcard which is receiving the text messages. See script needed below.
