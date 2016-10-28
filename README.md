@@ -42,7 +42,7 @@ npm run production
 ```
 ## receiving text messages
 install on{x} www.onx.ms
-Make a recipe with following code; (Dont forget to change the ip address)
+Make a recipe with following code; (Don't forget to change the ip address)
 
 title
 ```
