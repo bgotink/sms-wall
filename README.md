@@ -24,7 +24,6 @@ You are unable to add words or blocked phone numbers at run time. At the moment 
 
 ```
 yarn
-(cd www && bower install)
 ```
 
 ## Running
