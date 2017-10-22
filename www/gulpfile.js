@@ -26,7 +26,7 @@ var crypto = require('crypto');
 var ensureFiles = require('./tasks/ensure-files.js');
 
 var uglify = require('uglify-js-harmony');
-var gulpUglify = require('gulp-uglify/minifier');
+var gulpUglify = require('gulp-uglify');
 
 // var ghPages = require('gulp-gh-pages');
 
