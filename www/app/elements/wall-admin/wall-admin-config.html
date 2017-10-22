@@ -240,6 +240,14 @@
     <wall-admin-config-item-boolean
       key="blocked_phone_number_check_enabled"
       label="Check for blocked phone numbers?"
+	  value="{{blockNumberCheckEnabled}}"
+      ></wall-admin-config-item-boolean>
+	  
+	<wall-admin-config-item-boolean
+	  class="sub-item"
+      key="send_message_back_to_blocked_number_enabled"
+	  disabled="[[!blockNumberCheckEnabled]]"
+      label="Send message back to a blocked number?"
       ></wall-admin-config-item-boolean>
 
     <wall-admin-config-item-string

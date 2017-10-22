@@ -74,7 +74,8 @@ exports.init = function initDb(dbpath) {
             exports.config.set('blocked_phone_number_check_enabled', '0'),
             exports.config.set('contains_phone_number_check_enabled', '0'),
             exports.config.set('contains_phone_number_check__allow_own_number', '0'),
-            exports.config.set('admin_phone_number_check_enabled', '0')
+            exports.config.set('admin_phone_number_check_enabled', '0'),
+			exports.config.set('send_message_back_to_blocked_number_enabled', '0')
           ]);
         }
       });
