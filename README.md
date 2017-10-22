@@ -77,6 +77,8 @@ console.log('sms received from', sms.from, 'with the following body:', sms.body)
    },
    function onSuccess(body, textStatus, response) {
      console.info('successfully received http response!');
+     // Here you can use the body to reply to a blocked user.
+     // The body is a JSON object containing {reply: true, message: string} or {reply: false}
    },
    function onError(textStatus, response) {
      var error = {};
