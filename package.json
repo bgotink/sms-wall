@@ -7,6 +7,7 @@
   "author": "Bram Gotink <bram@gotink.me>",
   "license": "UNLICENSED",
   "devDependencies": {
+    "bower": "^1.8.2",
     "browser-sync": "2.18.13",
     "connect-history-api-fallback": "1.4.0",
     "del": "3.0.0",
@@ -35,6 +36,7 @@
     "vulcanize": "1.16.0"
   },
   "scripts": {
+    "postinstall": "cd www && bower install",
     "production-build": "cd www && gulp default",
     "production-run": "node server --production",
     "production": "npm run production-build && npm run production-run",
