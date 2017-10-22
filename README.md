@@ -44,7 +44,7 @@ install on{x} www.onx.ms
 Make a recipe with following code; (Don't forget to change the ip address)
 
 title
-```
+```json
 {
     "title": "When I receive a sms, post it on server {0}",
     "icons":["sms", "wifi"],
@@ -54,7 +54,7 @@ title
 }
 ```
 code
-```
+```javascript
 // register to smsRecieved event
 
 device.messaging.on('smsReceived', function (sms) {
