@@ -23,7 +23,7 @@ You are unable to add words or blocked phone numbers at run time. At the moment 
 ## Installation
 
 ```
-npm install
+yarn
 (cd www && bower install)
 ```
 
