@@ -99,5 +99,3 @@ console.log('sms received from', sms.from, 'with the following body:', sms.body)
 -Add a button the admin page to easily (un)block phone numbers
 
 -Send the user a message back when his phone number is blocked
-
-
