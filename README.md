@@ -1,5 +1,6 @@
 # SMS Wall
 ## Features
+
 Our program can receive messages from post requests and shows them nicely on the screen. An admin page is for seen to allow some configuration and some censoring of the received messages.
 The following automatic censoring can be turned on:
 
